@@ -10,12 +10,13 @@ export const meta = () => {
 
 export async function loader({ request }) {
   const url = await request.url;
-  const q = new URL(url).searchParams.get('q');
+  const q = new URL(url).searchParams.get('q') ?? 'Nairobi';
   const res = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${q}&appid=${process.env.OPENWEATHER_API_KEY}`);
 
   const location = await res.json();
   const { lat, lon } = location[0];
 
+  // console.log({ location });
 
   const weatherRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.OPENWEATHER_API_KEY}&units=metric`);
 
@@ -49,7 +50,9 @@ export default function Index() {
   return (
     <main className="bg-[#7f9fb6] h-screen w-full pt-8 lg:pt-16">
       <div className=" lg:max-w-6xl mx-auto h-full">
-        <h1 className="font-bold text-4xl text-white ml-4 lg:ml-0">Weather</h1>
+        <Link to="/">
+          <h1 className="font-bold text-4xl text-white ml-4 lg:ml-0">Weather</h1>
+        </Link>
         {/* Image and today's weather */}
         <div className={`mt-4 flex flex-col lg:flex-row gap-x-4 justify-between ${(data.weatherObj.icon === '01d' || data.weatherObj.icon === '02d') ? "bg-[url('/blue-sky.webp')]" : "bg-[url('/gloomy-sky.jpg')]"} bg-center bg-no-repeat bg-cover   lg:h-3/4 text-white relative`}>
           <div className="lg:pt-72 pl-4 py-4 lg:py-0 lg:pl-10 order-2 lg:order-1">
@@ -61,7 +64,7 @@ export default function Index() {
                 className="inline"
               />
             </span>
-            <span className="text-lg font-semibold">{data.weatherObj.location ?? 'Nairobi'}</span>
+            <span className="text-lg font-semibold">{data.weatherObj.location}</span>
           </div>
           <div className="order-1 lg:order-2 lg:w-96 pt-10 backdrop-blur-md px-2 lg:px-4 divide-y">
             {/* Search form and common locations */}
