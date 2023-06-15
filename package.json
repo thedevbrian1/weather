@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@netlify/functions": "^1.4.0",
+    "@reach/combobox": "^0.18.0",
     "@remix-run/css-bundle": "^1.17.0",
     "@remix-run/netlify": "^1.17.0",
     "@remix-run/node": "^1.17.0",
